@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"errors"
+	"sync"
 	"gopkg.in/yaml.v2"
 	"github.com/karlpokus/uptime/service"
 )
@@ -48,12 +49,16 @@ func (c *Conf) ReadFile(path string) error {
 	return nil
 }
 
-func runChecks(conf *Conf) []string {
-	var out []string
-	for _, service := range conf.Services {
-		out = append(out, service.Check())
+func runChecks(conf *Conf) chan string {
+	var wg sync.WaitGroup
+	c := make(chan string, len(conf.Services))
+	for _, s := range conf.Services {
+		wg.Add(1)
+		go s.Check(&wg, c)
 	}
-	return out
+	wg.Wait()
+	close(c)
+	return c
 }
 
 func main() {
@@ -64,8 +69,7 @@ func main() {
 	if err := conf.ReadFile(os.Args[1]); err != nil {
 		stderr.Fatal(err)
 	}
-	res := runChecks(conf)
-	for _, v := range res {
-		stdout.Println(v)
+	for s := range runChecks(conf) {
+		stdout.Println(s)
 	}
 }

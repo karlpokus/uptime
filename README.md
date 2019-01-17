@@ -21,7 +21,9 @@ services:
 # todos
 - [x] http method should default to GET
 - [x] status
-- [ ] timeouts with ctx
+- [x] concurrent service calls
+- [x] http connection timeout
+- [ ] http request timeout
 - [ ] cron + storage
 
 # license

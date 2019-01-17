@@ -3,6 +3,7 @@ package service
 import (
 	"time"
 	"fmt"
+	"sync"
 )
 
 type Service struct {
@@ -14,15 +15,17 @@ type Checker func(Service) error
 
 var checkers = make(map[string]Checker)
 
-func (s Service) Check() string {
+func (s Service) Check(wg *sync.WaitGroup, c chan string) {
+	defer wg.Done()
 	start := time.Now()
 	err := checkers[s.Type](s)
 	if err != nil {
-		return fmt.Sprintf("%s failed %s", s.Name, err.Error())
+		c <- fmt.Sprintf("%s failed %s", s.Name, err.Error())
+		return
 	}
 	end := time.Now()
 	elapsed := end.Sub(start)
-	return fmt.Sprintf("%s ok %v", s.Name, elapsed)
+	c <- fmt.Sprintf("%s ok %v", s.Name, elapsed)
 }
 
 func init() {

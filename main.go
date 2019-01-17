@@ -51,11 +51,7 @@ func (c *Conf) ReadFile(path string) error {
 func runChecks(conf *Conf) []string {
 	var out []string
 	for _, service := range conf.Services {
-		if err := service.Check(); err != nil {
-			out = append(out, err.Error())
-		} else {
-			out = append(out, service.Name + " ok")
-		}
+		out = append(out, service.Check())
 	}
 	return out
 }

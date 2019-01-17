@@ -7,7 +7,7 @@ import (
 )
 
 var httpClient = &http.Client{
-	Timeout: 3 * time.Second, // try this before adding context
+	Timeout: 3 * time.Second,
 	Transport: &http.Transport{},
 }
 

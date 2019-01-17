@@ -14,8 +14,5 @@ func mongoCall(s Service) error {
 		return err
 	}
 	defer client.Disconnect(ctx)
-	if err := client.Ping(ctx, nil); err != nil {
-		return err
-	}
-	return nil
+	return client.Ping(ctx, nil)
 }

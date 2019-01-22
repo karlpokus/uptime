@@ -5,6 +5,7 @@ import (
 	"os"
 	"io/ioutil"
 	"errors"
+	"time"
 	"gopkg.in/yaml.v2"
 	"github.com/karlpokus/uptime/service"
 )
@@ -52,6 +53,14 @@ func runChecks(conf *Conf) (chan string, int) {
 	return c, sCount
 }
 
+func output(c chan string, n int) {
+	fmt.Printf("\nUPTIME CHECK \t %s\n\n", time.Now().Format(time.RFC3339))
+	for i := 0; i < n; i++ {
+		fmt.Println(<-c)
+	}
+	fmt.Println()
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		panic(errors.New("Missing config path arg"))
@@ -60,8 +69,5 @@ func main() {
 	if err := conf.ReadFile(os.Args[1]); err != nil {
 		panic(err)
 	}
-	c, n := runChecks(conf)
-	for i := 0; i < n; i++ {
-		fmt.Println(<-c)
-	}
+	output(runChecks(conf))
 }

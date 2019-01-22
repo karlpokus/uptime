@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 	"errors"
+	"strings"
 )
 
 var httpClient = &http.Client{
@@ -15,6 +16,10 @@ func httpCall(s Service) error {
 	req, err := http.NewRequest(s.Method, s.Url, nil)
 	if err != nil {
 		return err
+	}
+	if s.Auth != "" {
+		auth := strings.Split(s.Auth, ":")
+		req.SetBasicAuth(auth[0], auth[1])
 	}
 	status, err := httpDo(req)
 	if err != nil {

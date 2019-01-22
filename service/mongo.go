@@ -7,9 +7,8 @@ import (
 )
 
 func mongoCall(s Service) error {
-	ctx, _ := context.WithTimeout(context.Background(), 5 * time.Second)
-	mongoConnString := s.Url
-	client, err := mongo.Connect(ctx, mongoConnString)
+	ctx, _ := context.WithTimeout(context.Background(), 3 * time.Second)
+	client, err := mongo.Connect(ctx, s.Url)
 	if err != nil {
 		return err
 	}

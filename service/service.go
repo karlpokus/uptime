@@ -3,11 +3,10 @@ package service
 import (
 	"time"
 	"fmt"
-	"sync"
 )
 
 type Service struct {
-	Name, Type, Url, Method string
+	Name, Type, Url, Method, Auth string
 	Expect int
 }
 
@@ -15,8 +14,7 @@ type Checker func(Service) error
 
 var checkers = make(map[string]Checker)
 
-func (s Service) Check(wg *sync.WaitGroup, c chan string) {
-	defer wg.Done()
+func (s Service) Check(c chan string) {
 	start := time.Now()
 	err := checkers[s.Type](s)
 	if err != nil {

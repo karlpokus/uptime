@@ -1,17 +1,12 @@
 package main
 
 import (
-	"log"
-	"io/ioutil"
+	"fmt"
 	"os"
+	"io/ioutil"
 	"errors"
 	"gopkg.in/yaml.v2"
 	"github.com/karlpokus/uptime/service"
-)
-
-var (
-	stdout = log.New(os.Stdout, "uptime ", log.Ldate | log.Ltime)
-	stderr = log.New(os.Stderr, "uptime ", log.Ldate | log.Ltime)
 )
 
 type Conf struct {
@@ -59,14 +54,14 @@ func runChecks(conf *Conf) (chan string, int) {
 
 func main() {
 	if len(os.Args) < 2 {
-		stderr.Fatal(errors.New("Missing config path arg"))
+		panic(errors.New("Missing config path arg"))
 	}
 	conf := new(Conf)
 	if err := conf.ReadFile(os.Args[1]); err != nil {
-		stderr.Fatal(err)
+		panic(err)
 	}
 	c, n := runChecks(conf)
 	for i := 0; i < n; i++ {
-		stdout.Println(<-c)
+		fmt.Println(<-c)
 	}
 }

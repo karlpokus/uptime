@@ -23,7 +23,7 @@ services:
 - [x] status
 - [x] concurrent service calls
 - [x] http connection timeout
-- [ ] http request timeout
+- [x] http request timeout
 - [ ] cron + storage
 
 # license

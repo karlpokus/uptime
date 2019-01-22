@@ -2,6 +2,7 @@ package service
 
 import (
 	"net/http"
+	"context"
 	"time"
 	"errors"
 	"strings"
@@ -17,11 +18,13 @@ func httpCall(s Service) error {
 	if err != nil {
 		return err
 	}
+	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
+	defer cancel()
 	if s.Auth != "" {
 		auth := strings.Split(s.Auth, ":")
 		req.SetBasicAuth(auth[0], auth[1])
 	}
-	status, err := httpDo(req)
+	status, err := httpDo(req.WithContext(ctx))
 	if err != nil {
 		return err
 	}

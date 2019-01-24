@@ -9,7 +9,7 @@ import (
 )
 
 var httpClient = &http.Client{
-	Timeout: 3 * time.Second,
+	//Timeout: 3 * time.Second,
 	Transport: &http.Transport{},
 }
 

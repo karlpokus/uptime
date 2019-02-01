@@ -17,7 +17,7 @@ type Conf struct {
 func (c *Conf) serviceTypesAreValid() error {
 	isValid := func(str string) bool {
 		switch str {
-		case "http", "mongodb":
+		case "http", "mongodb", "redis":
 			return true
 		}
 		return false

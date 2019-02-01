@@ -12,11 +12,12 @@ Example of a valid `config.yaml`
 ```yaml
 services: # a list of services
   - name: service name
-    type: http|mongodb
+    type: http|mongodb|redis
     method: http method (defaults to GET)
     url: fully qualified url
-    expect: expected successful server status if type http
-    auth: basic auth credentials user:pwd if type http
+    expect: server response status considered successful (only applies to type http)
+    auth: basic auth credentials in format user:pwd (only applies to type http)
+    pwd: password (only applies to type redis)
 ```
 
 # todos

@@ -6,7 +6,7 @@ import (
 )
 
 type Service struct {
-	Name, Type, Url, Method, Auth string
+	Name, Type, Url, Method, Auth, Pwd string
 	Expect int
 }
 
@@ -29,4 +29,5 @@ func (s Service) Check(c chan string) {
 func init() {
 	checkers["http"] = httpCall
 	checkers["mongodb"] = mongoCall
+	checkers["redis"] = redisCall
 }

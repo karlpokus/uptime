@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"context"
 	"time"
-	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -29,7 +29,7 @@ func httpCall(s Service) error {
 		return err
 	}
 	if status != s.Expect {
-		return errors.New(s.Name + " failed")
+		return fmt.Errorf("%d", status)
 	}
 	return nil
 }

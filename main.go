@@ -54,11 +54,10 @@ func runChecks(conf *Conf) (chan string, int) {
 }
 
 func output(c chan string, n int) {
-	fmt.Printf("\nUPTIME CHECK \t %s\n\n", time.Now().Format(time.RFC3339))
+	fmt.Printf("UPTIME CHECK %s\n", time.Now().Format(time.RFC3339))
 	for i := 0; i < n; i++ {
 		fmt.Println(<-c)
 	}
-	fmt.Println()
 }
 
 func main() {

@@ -1,4 +1,4 @@
-package service
+package uptime
 
 import (
 	"net/http"
@@ -13,7 +13,7 @@ var httpClient = &http.Client{
 	Transport: &http.Transport{},
 }
 
-func httpCall(s Service) error {
+func httpCall(s *Service) error {
 	req, err := http.NewRequest(s.Method, s.Url, nil)
 	if err != nil {
 		return err

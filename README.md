@@ -13,11 +13,11 @@ Example of a valid `config.yaml`
 services: # a list of services
   - name: service name
     type: http|mongodb|redis
-    method: http method (defaults to GET)
+    method: http method (defaults to GET, only applies to http)
     url: fully qualified url
-    expect: server response status considered successful (only applies to type http)
-    auth: basic auth credentials in format user:pwd (only applies to type http)
-    pwd: password (only applies to type redis)
+    expect: server response status considered successful (defaults to 200, only applies to http)
+    auth: basic auth credentials in format user:pwd (only applies to http)
+    pwd: password (only applies to redis)
 ```
 
 # todos
@@ -27,6 +27,7 @@ services: # a list of services
 - [x] http connection timeout
 - [x] http request timeout
 - [ ] cron + storage
+- [x] conf defaults
 
 # license
 MIT

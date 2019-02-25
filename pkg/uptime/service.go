@@ -1,4 +1,4 @@
-package service
+package uptime
 
 import (
 	"time"
@@ -10,13 +10,17 @@ type Service struct {
 	Expect int
 }
 
-type Checker func(Service) error
-
-var checkers = make(map[string]Checker)
-
-func (s Service) Check(c chan string) {
+func (s *Service) run(c chan string) {
+	var err error
 	start := time.Now()
-	err := checkers[s.Type](s)
+	switch s.Type {
+	case "http":
+		err = httpCall(s)
+	case "mongodb":
+		err = mongoCall(s)
+	case "redis":
+		err = redisCall(s)
+	}
 	if err != nil {
 		c <- fmt.Sprintf("%s \t fail \t %s", s.Name, err.Error())
 		return
@@ -24,10 +28,4 @@ func (s Service) Check(c chan string) {
 	end := time.Now()
 	elapsed := end.Sub(start)
 	c <- fmt.Sprintf("%s \t ok \t %v", s.Name, elapsed)
-}
-
-func init() {
-	checkers["http"] = httpCall
-	checkers["mongodb"] = mongoCall
-	checkers["redis"] = redisCall
 }

@@ -1,4 +1,4 @@
-package service
+package uptime
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func redisCall(s Service) error {
+func redisCall(s *Service) error {
 	opts := &redis.Options{
 		Addr: s.Url,
 		Password: s.Pwd, // empty string is ignored

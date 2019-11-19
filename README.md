@@ -28,6 +28,8 @@ services: # a list of services
 - [x] http request timeout
 - [ ] cron + storage
 - [x] conf defaults
+- [ ] opt to add ip as var in conf
+- [x] bug: mongodb does not time out
 
 # license
 MIT
